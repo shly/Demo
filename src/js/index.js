@@ -74,16 +74,16 @@ function createHeader (titles) {
   return template
 }
 function createTBody (columnName, data) {
-	let tbody = ''
+	let tBody = ''
   for (let i = 0;i<data.length;i++) {
     let temp = `<tr>`
     for (let j = 0;j<columnName.length;j++) {
       temp += `<td>${data[i][columnName[j].name]}</td>`
     }
     temp += `</tr>`
-    tbody += temp
+    tBody += temp
   }
-  return tbody
+  return tBody
 }
 createTable('simpleMsg', tableColumn, data)
 drawLineChart('chart', data)
