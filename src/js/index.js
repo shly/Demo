@@ -23,9 +23,59 @@ var data = [{
 }, {
   'time': '18:15',
   'count': '123'
-}];
-
+  }, {
+    'time': '18:15',
+    'count': '123'
+  }, {
+    'time': '18:15',
+    'count': '123'
+  }, {
+    'time': '18:15',
+    'count': '123'
+  }
+];
+var data1 = [{
+  'time': '10:12',
+  'count': '222'
+}, {
+  'time': '11:13',
+  'count': '432'
+}, {
+  'time': '12:14',
+  'count': '12'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+  },{
+    'time': '18:15',
+    'count': '323'
+  }
+];
+// @param data "name=John&location=Boston"
+function getDate (url, data) {
+  $.ajax({
+    type: "post",
+    url: url,
+    data: data,
+    success: function (msg) {
+      createTable('simpleMsg', tableColumn, data)
+      drawLineChart('chart', data)
+      createTable('simpleMsg1', tableColumn, data)
+      drawLineChart('chart1', data)
+    }
+  })
+}
 function drawLineChart (id, data) {
+  echarts.dispose(document.getElementById(id))
 	let myChart = echarts.init(document.getElementById(id));
   // 指定图表的配置项和数据
   let option = {
@@ -87,3 +137,12 @@ function createTBody (columnName, data) {
 }
 createTable('simpleMsg', tableColumn, data)
 drawLineChart('chart', data)
+createTable('simpleMsg1', tableColumn, data)
+drawLineChart('chart1', data)
+setInterval(function () {
+  let temp = data.shift()
+  temp.count = +temp.count + 10
+  data.push(temp)
+  createTable('simpleMsg', tableColumn, data)
+  drawLineChart('chart', data)
+}, 1000)

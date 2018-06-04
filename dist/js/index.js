@@ -22,9 +22,57 @@ var data = [{
 }, {
   'time': '18:15',
   'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
 }];
-
+var data1 = [{
+  'time': '10:12',
+  'count': '222'
+}, {
+  'time': '11:13',
+  'count': '432'
+}, {
+  'time': '12:14',
+  'count': '12'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '123'
+}, {
+  'time': '18:15',
+  'count': '323'
+}];
+// @param data "name=John&location=Boston"
+function getDate(url, data) {
+  $.ajax({
+    type: "post",
+    url: url,
+    data: data,
+    success: function success(msg) {
+      createTable('simpleMsg', tableColumn, data);
+      drawLineChart('chart', data);
+      createTable('simpleMsg1', tableColumn, data);
+      drawLineChart('chart1', data);
+    }
+  });
+}
 function drawLineChart(id, data) {
+  echarts.dispose(document.getElementById(id));
   var myChart = echarts.init(document.getElementById(id));
   // 指定图表的配置项和数据
   var option = {
@@ -63,16 +111,25 @@ function createHeader(titles) {
   return template;
 }
 function createTBody(columnName, data) {
-  var tbody = '';
+  var tBody = '';
   for (var i = 0; i < data.length; i++) {
     var temp = '<tr>';
     for (var j = 0; j < columnName.length; j++) {
       temp += '<td>' + data[i][columnName[j].name] + '</td>';
     }
     temp += '</tr>';
-    tbody += temp;
+    tBody += temp;
   }
-  return tbody;
+  return tBody;
 }
 createTable('simpleMsg', tableColumn, data);
 drawLineChart('chart', data);
+createTable('simpleMsg1', tableColumn, data);
+drawLineChart('chart1', data);
+setInterval(function () {
+  var temp = data.shift();
+  temp.count = +temp.count + 10;
+  data.push(temp);
+  createTable('simpleMsg', tableColumn, data);
+  drawLineChart('chart', data);
+}, 1000);
