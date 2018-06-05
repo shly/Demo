@@ -23,13 +23,13 @@ var data = [{
   'time': '18:15',
   'count': '123'
 }, {
-  'time': '18:15',
+  'time': '19:15',
   'count': '123'
 }, {
-  'time': '18:15',
+  'time': '20:15',
   'count': '123'
 }, {
-  'time': '18:15',
+  'time': '21:15',
   'count': '123'
 }];
 var data1 = [{
@@ -72,9 +72,24 @@ function getDate(url, data) {
   });
 }
 function drawLineChart(id, data) {
-  var myChart = echarts.init(document.getElementById(id));
+  var ele = document.getElementById(id);
+  var myChart = echarts.getInstanceByDom(ele);
+  if (!myChart) {
+    myChart = echarts.init(ele);
+  }
   // 指定图表的配置项和数据
   var option = {
+    tooltip: {
+      trigger: 'axis',
+      formatter: function formatter(params) {
+        params = params[0];
+        var date = new Date(params.name);
+        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+      },
+      axisPointer: {
+        animation: false
+      }
+    },
     xAxis: {
       type: 'category',
       data: []
@@ -96,7 +111,6 @@ function drawLineChart(id, data) {
   });
   // 使用刚指定的配置项和数据显示图表。
   myChart.setOption(option);
-  return myChart;
 }
 function createTable(id, columnName, data) {
   var headerTemplate = '\n    <thead>\n      <tr>\n        ' + createHeader(columnName) + '\n      </tr>\n    </thead>\n  ';
@@ -123,7 +137,7 @@ function createTBody(columnName, data) {
   return tBody;
 }
 createTable('simpleMsg', tableColumn, data);
-var lintChart1 = drawLineChart('chart', data);
+drawLineChart('chart', data);
 createTable('simpleMsg1', tableColumn, data);
 drawLineChart('chart1', data);
 setInterval(function () {
@@ -131,9 +145,5 @@ setInterval(function () {
   temp.count = +temp.count + 10;
   data.push(temp);
   createTable('simpleMsg', tableColumn, data);
-  lintChart1.setOption({
-    series: [{
-      data: data
-    }]
-  });
+  drawLineChart('chart', data);
 }, 1000);
