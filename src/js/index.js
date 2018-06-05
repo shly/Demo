@@ -75,7 +75,6 @@ function getDate (url, data) {
   })
 }
 function drawLineChart (id, data) {
-  echarts.dispose(document.getElementById(id))
 	let myChart = echarts.init(document.getElementById(id));
   // 指定图表的配置项和数据
   let option = {
@@ -100,6 +99,7 @@ function drawLineChart (id, data) {
   })
   // 使用刚指定的配置项和数据显示图表。
   myChart.setOption(option);
+  return myChart
 }
 function createTable(id, columnName, data) {
   let headerTemplate = `
@@ -136,7 +136,7 @@ function createTBody (columnName, data) {
   return tBody
 }
 createTable('simpleMsg', tableColumn, data)
-drawLineChart('chart', data)
+let lintChart1 = drawLineChart('chart', data)
 createTable('simpleMsg1', tableColumn, data)
 drawLineChart('chart1', data)
 setInterval(function () {
@@ -144,5 +144,9 @@ setInterval(function () {
   temp.count = +temp.count + 10
   data.push(temp)
   createTable('simpleMsg', tableColumn, data)
-  drawLineChart('chart', data)
+  lintChart1.setOption({
+    series: [{
+        data: data
+    }]
+  });
 }, 1000)
