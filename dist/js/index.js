@@ -57,6 +57,7 @@ var data1 = [{
   'time': '18:15',
   'count': '323'
 }];
+var interval = void 0;
 // 获取数据
 // @param data "name=John&location=Boston"
 function getDate(url, data) {
@@ -193,13 +194,28 @@ function createTHeader4Detail(times) {
   var theader = '\n    <tr>\n\t    <th scope="col" rowspan="2">\u670D\u52A1\u540D</th>\n\t    <th scope="col" rowspan="2">\u65B9\u6CD5</th>\n\t    ' + part_1 + '\n\t  </tr>\n\t  <tr>\n\t    ' + part_2.repeat(times.length) + '\n\t  </tr>\n  ';
   return theader;
 }
+document.querySelector('#checkbox').onclick = function () {
+  if (!this.checked && interval) {
+    clearInterval(interval);
+    interval = null;
+  } else if (this.checked && !interval) {
+    interval = setInterval(function () {
+      var temp = data.shift();
+      temp.count = +temp.count + 10;
+      data.push(temp);
+      createTable('simpleMsg', tableColumn, data);
+      drawLineChart('chart', data);
+    }, 1000);
+  }
+  console.log(this.checked);
+};
 // createTable 生成普通table
 createTable('simpleMsg', tableColumn, data);
 // drawLineChart 生成统计图
 drawLineChart('chart', data);
 createTable('simpleMsg1', tableColumn, data);
 drawLineChart('chart1', data);
-setInterval(function () {
+interval = setInterval(function () {
   var temp = data.shift();
   temp.count = +temp.count + 10;
   data.push(temp);

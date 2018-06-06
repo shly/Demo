@@ -77,8 +77,33 @@ h4 {
   border: 1px solid #dee2e6;
   border-radius: 3px;
 }
-.contron {
+.control {
   margin: 5px;
+  color: #413f3f;
+  width: 100%;
+  text-align: right;
+}
+.control input[type='checkbox'] {
+  vertical-align: middle;
+  width: 15px;
+  height: 15px;
+}
+.control input[type="text"] {
+  width: 150px;
+  height: 25px;
+  box-sizing: border-box;
+}
+.control input[type='button'] {
+  width: 50px;
+  height: 25px;
+  vertical-align: middle;
+  border: 1px;
+  outline: none;
+  box-sizing: border-box;
+}
+.control .item {
+  display: inline-block;
+  margin: 10px 10px 0px 10px;
 }
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 ::-webkit-scrollbar {

@@ -60,6 +60,7 @@ var data1 = [{
     'count': '323'
   }
 ];
+let interval
 // 获取数据
 // @param data "name=John&location=Boston"
 function getDate (url, data) {
@@ -236,13 +237,28 @@ function createTHeader4Detail(times) {
   `
   return theader
 }
+document.querySelector('#checkbox').onclick = function () {
+  if (!this.checked && interval) {
+    clearInterval(interval)
+    interval = null
+  } else if (this.checked && !interval) {
+    interval = setInterval(function () {
+      let temp = data.shift()
+      temp.count = +temp.count + 10
+      data.push(temp)
+      createTable('simpleMsg', tableColumn, data)
+      drawLineChart('chart', data)
+    }, 1000)
+  }
+  console.log(this.checked)
+}
 // createTable 生成普通table
 createTable('simpleMsg', tableColumn, data)
 // drawLineChart 生成统计图
 drawLineChart('chart', data)
 createTable('simpleMsg1', tableColumn, data)
 drawLineChart('chart1', data)
-setInterval(function () {
+interval = setInterval(function () {
   let temp = data.shift()
   temp.count = +temp.count + 10
   data.push(temp)
