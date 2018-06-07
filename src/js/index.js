@@ -156,7 +156,7 @@ function createTBody (columnName, data) {
 }
 
 
-let times = ['09:00','10:00']
+let times = ['09:00','10:00', '11:00']
 let serviceDetails = [
   {
     'servicename': 'service1',
@@ -166,6 +166,10 @@ let serviceDetails = [
       'number': 100,
       'SuccessRate':'80%'
     },{
+        'timeConsuming': '10',
+        'number': 100,
+        'SuccessRate': '80%'
+      }, {
         'timeConsuming': '10',
         'number': 100,
         'SuccessRate': '80%'
@@ -182,12 +186,16 @@ let serviceDetails = [
         'timeConsuming': '10',
         'number': 100,
         'SuccessRate': '80%'
+      } , {
+        'timeConsuming': '10',
+        'number': 100,
+        'SuccessRate': '80%'
       }]
   }
 ]
 // 生成ServiceDetail的特定table
-function createServiceDetailTable(times, serviceDetails) {
-  let table = document.querySelector('.serviceDetail')
+function createServiceDetailTable(id, times, serviceDetails) {
+  let table = document.getElementById(id)
   let str = `
   <thead>
     ${createTHeader4Detail(times)}
@@ -208,7 +216,6 @@ function createTBody4Detail(times, serviceDetails) {
       tbody += `
       <td>${performance.timeConsuming}</td>
       <td>${performance.number}</td>
-      <td>${performance.SuccessRate}</td>
       `
     })
     tbody += '</tr>'
@@ -218,12 +225,11 @@ function createTBody4Detail(times, serviceDetails) {
 function createTHeader4Detail(times) {
   let part_1 = ''
   times.forEach(function (item) {
-    part_1 += `<th scope="col" colspan="3">${item}</th>`
+    part_1 += `<th scope="col" colspan="2">${item}</th>`
   })
   let part_2 = `
       <th scope="col">耗时</th>
 	    <th scope="col">数量</th>
-      <th scope="col">成功率</th>
       `
   let theader = `
     <tr>
@@ -266,4 +272,5 @@ interval = setInterval(function () {
   drawLineChart('chart', data)
 }, 1000)
 // createServiceDetailTable 详情table
-createServiceDetailTable(times, serviceDetails)
+createServiceDetailTable('serviceDetail', times, serviceDetails)
+createServiceDetailTable('serviceDetail1',times, serviceDetails)

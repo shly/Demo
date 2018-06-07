@@ -142,11 +142,15 @@ function createTBody(columnName, data) {
   return tBody;
 }
 
-var times = ['09:00', '10:00'];
+var times = ['09:00', '10:00', '11:00'];
 var serviceDetails = [{
   'servicename': 'service1',
   'methods': 'methods1',
   'performance': [{
+    'timeConsuming': '10',
+    'number': 100,
+    'SuccessRate': '80%'
+  }, {
     'timeConsuming': '10',
     'number': 100,
     'SuccessRate': '80%'
@@ -166,11 +170,15 @@ var serviceDetails = [{
     'timeConsuming': '10',
     'number': 100,
     'SuccessRate': '80%'
+  }, {
+    'timeConsuming': '10',
+    'number': 100,
+    'SuccessRate': '80%'
   }]
 }];
 // 生成ServiceDetail的特定table
-function createServiceDetailTable(times, serviceDetails) {
-  var table = document.querySelector('.serviceDetail');
+function createServiceDetailTable(id, times, serviceDetails) {
+  var table = document.getElementById(id);
   var str = '\n  <thead>\n    ' + createTHeader4Detail(times) + '\n\t</thead>\n\t<tbody>\n\t   ' + createTBody4Detail(times, serviceDetails) + '\n  </tbody>';
   table.innerHTML = str;
 }
@@ -179,7 +187,7 @@ function createTBody4Detail(times, serviceDetails) {
   serviceDetails.forEach(function (item) {
     tbody += '<tr>\n    <td>' + item.servicename + '</td>\n    <td>' + item.methods + '</td>\n    ';
     item.performance.forEach(function (performance) {
-      tbody += '\n      <td>' + performance.timeConsuming + '</td>\n      <td>' + performance.number + '</td>\n      <td>' + performance.SuccessRate + '</td>\n      ';
+      tbody += '\n      <td>' + performance.timeConsuming + '</td>\n      <td>' + performance.number + '</td>\n      ';
     });
     tbody += '</tr>';
   });
@@ -188,9 +196,9 @@ function createTBody4Detail(times, serviceDetails) {
 function createTHeader4Detail(times) {
   var part_1 = '';
   times.forEach(function (item) {
-    part_1 += '<th scope="col" colspan="3">' + item + '</th>';
+    part_1 += '<th scope="col" colspan="2">' + item + '</th>';
   });
-  var part_2 = '\n      <th scope="col">\u8017\u65F6</th>\n\t    <th scope="col">\u6570\u91CF</th>\n      <th scope="col">\u6210\u529F\u7387</th>\n      ';
+  var part_2 = '\n      <th scope="col">\u8017\u65F6</th>\n\t    <th scope="col">\u6570\u91CF</th>\n      ';
   var theader = '\n    <tr>\n\t    <th scope="col" rowspan="2">\u670D\u52A1\u540D</th>\n\t    <th scope="col" rowspan="2">\u65B9\u6CD5</th>\n\t    ' + part_1 + '\n\t  </tr>\n\t  <tr>\n\t    ' + part_2.repeat(times.length) + '\n\t  </tr>\n  ';
   return theader;
 }
@@ -223,4 +231,5 @@ interval = setInterval(function () {
   drawLineChart('chart', data);
 }, 1000);
 // createServiceDetailTable 详情table
-createServiceDetailTable(times, serviceDetails);
+createServiceDetailTable('serviceDetail', times, serviceDetails);
+createServiceDetailTable('serviceDetail1', times, serviceDetails);
