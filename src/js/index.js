@@ -1,10 +1,10 @@
 var tableColumn = [
   {
-    title: 'time',
+    title: '时间',
     name: 'time'
   },
   {
-    title: 'count',
+    title: '数量',
     name: 'count'
   }
 ]
@@ -28,6 +28,12 @@ var data = [{
     'count': '123'
   }, {
     'time': '20:15',
+    'count': '123'
+  }, {
+    'time': '21:15',
+    'count': '123'
+  }, {
+    'time': '21:15',
     'count': '123'
   }, {
     'time': '21:15',
@@ -60,6 +66,43 @@ var data1 = [{
     'count': '323'
   }
 ];
+let times = ['09:00', '10:00', '11:00']
+let serviceDetails = [
+  {
+    'servicename': 'service1',
+    'methods': 'methods1',
+    'performance': [{
+      'timeConsuming': '10',
+      'number': 100,
+      'SuccessRate': '80%'
+    }, {
+      'timeConsuming': '10',
+      'number': 100,
+      'SuccessRate': '80%'
+    }, {
+      'timeConsuming': '10',
+      'number': 100,
+      'SuccessRate': '80%'
+    }]
+  },
+  {
+    'servicename': 'service1',
+    'methods': 'methods1',
+    'performance': [{
+      'timeConsuming': '10',
+      'number': 100,
+      'SuccessRate': '80%'
+    }, {
+      'timeConsuming': '10',
+      'number': 100,
+      'SuccessRate': '80%'
+    }, {
+      'timeConsuming': '10',
+      'number': 100,
+      'SuccessRate': '80%'
+    }]
+  }
+]
 let interval
 // 获取数据
 // @param data "name=John&location=Boston"
@@ -94,6 +137,7 @@ function drawLineChart (id, data) {
     xAxis: {
       type: 'category',
       data: [],
+      name: '时间',
       axisTick: {
         'alignWithLabel': true
       }
@@ -155,44 +199,6 @@ function createTBody (columnName, data) {
   return tBody
 }
 
-
-let times = ['09:00','10:00', '11:00']
-let serviceDetails = [
-  {
-    'servicename': 'service1',
-    'methods':'methods1',
-    'performance':[{
-      'timeConsuming': '10',
-      'number': 100,
-      'SuccessRate':'80%'
-    },{
-        'timeConsuming': '10',
-        'number': 100,
-        'SuccessRate': '80%'
-      }, {
-        'timeConsuming': '10',
-        'number': 100,
-        'SuccessRate': '80%'
-      }]
-  },
-  {
-    'servicename': 'service1',
-    'methods':'methods1',
-    'performance': [{
-      'timeConsuming': '10',
-      'number': 100,
-      'SuccessRate': '80%'
-    }, {
-        'timeConsuming': '10',
-        'number': 100,
-        'SuccessRate': '80%'
-      } , {
-        'timeConsuming': '10',
-        'number': 100,
-        'SuccessRate': '80%'
-      }]
-  }
-]
 // 生成ServiceDetail的特定table
 function createServiceDetailTable(id, times, serviceDetails) {
   let table = document.getElementById(id)
@@ -258,6 +264,11 @@ document.querySelector('#checkbox').onclick = function () {
   }
   console.log(this.checked)
 }
+$('#replay').on('click', function () {
+  let time = $('#time').val()
+  $('#projectName').html(time)
+  console.log(time)
+})
 // createTable 生成普通table
 createTable('simpleMsg', tableColumn, data)
 // drawLineChart 生成统计图
