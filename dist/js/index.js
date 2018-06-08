@@ -63,39 +63,16 @@ var data1 = [{
   'time': '18:15',
   'count': '323'
 }];
-var times = ['09:00', '10:00', '11:00'];
-var serviceDetails = [{
-  'servicename': 'service1',
-  'methods': 'methods1',
-  'performance': [{
-    'timeConsuming': '10',
-    'number': 100,
-    'SuccessRate': '80%'
-  }, {
-    'timeConsuming': '10',
-    'number': 100,
-    'SuccessRate': '80%'
-  }, {
-    'timeConsuming': '10',
-    'number': 100,
-    'SuccessRate': '80%'
-  }]
+var serviceDetails = [{ "time": "11:43", "performance": [{ "timeConsuming": "2.0", "number": "10", "service": "com.unj.dubbotest.provider.DemoService.getUsers" }, { "costTimeAvg": "2.0", "number": "10", "service": "com.unj.dubbotest.provider.DemoService.sayHello" }] }, { "time": "11:44", "performance": [{ "timeConsuming": "2.0", "number": "13", "service": "com.unj.dubbotest.provider.DemoService.sayHello" }, { "costTimeAvg": "1.0", "number": "10", "service": "com.unj.dubbotest.provider.DemoService.getUsers" }] }, { "time": "11:45", "performance": [{ "timeConsuming": "2.5", "number": "15", "service": "com.unj.dubbotest.provider.DemoService.getUsers" }, { "costTimeAvg": "2.0", "number": "10", "service": "com.unj.dubbotest.provider.DemoService.sayHello" }] }];
+var performanceIndex = [{
+  title: '服务',
+  name: 'service'
 }, {
-  'servicename': 'service1',
-  'methods': 'methods1',
-  'performance': [{
-    'timeConsuming': '10',
-    'number': 100,
-    'SuccessRate': '80%'
-  }, {
-    'timeConsuming': '10',
-    'number': 100,
-    'SuccessRate': '80%'
-  }, {
-    'timeConsuming': '10',
-    'number': 100,
-    'SuccessRate': '80%'
-  }]
+  title: '数量',
+  name: 'number'
+}, {
+  title: '耗时',
+  name: 'costTimeAvg'
 }];
 var interval = void 0;
 // 获取数据
@@ -184,29 +161,34 @@ function createTBody(columnName, data) {
 }
 
 // 生成ServiceDetail的特定table
-function createServiceDetailTable(id, times, serviceDetails) {
+function createServiceDetailTable(id, performanceIndex, serviceDetails) {
   var table = document.getElementById(id);
-  var str = '\n  <thead>\n    ' + createTHeader4Detail(times) + '\n\t</thead>\n\t<tbody>\n\t   ' + createTBody4Detail(times, serviceDetails) + '\n  </tbody>';
+  var str = '\n  <thead>\n    <th scope="col">\u65F6\u95F4</th>\n    ' + createTHeader4Detail(performanceIndex) + '\n\t</thead>\n\t<tbody>\n\t   ' + createTBody4Detail(performanceIndex, serviceDetails) + '\n  </tbody>';
   table.innerHTML = str;
 }
-function createTBody4Detail(times, serviceDetails) {
+function createTBody4Detail(performanceIndex, serviceDetails) {
   var tbody = '';
   serviceDetails.forEach(function (item) {
-    tbody += '<tr>\n    <td>' + item.servicename + '</td>\n    <td>' + item.methods + '</td>\n    ';
-    item.performance.forEach(function (performance) {
-      tbody += '\n      <td>' + performance.timeConsuming + '</td>\n      <td>' + performance.number + '</td>\n      ';
+    tbody += '<tr>';
+    tbody += '<td rowspan=' + item.performance.length + '>' + item.time + '</td>';
+    item.performance.forEach(function (performance, index) {
+      if (index !== 0) {
+        tbody += '<tr>';
+      }
+      performanceIndex.forEach(function (obj) {
+        console.log(obj);
+        tbody += '\n        <td>' + performance[obj.name] + '</td>\n        ';
+      });
+      tbody += '</tr>';
     });
-    tbody += '</tr>';
   });
   return tbody;
 }
-function createTHeader4Detail(times) {
-  var part_1 = '';
-  times.forEach(function (item) {
-    part_1 += '<th scope="col" colspan="2">' + item + '</th>';
+function createTHeader4Detail(performanceIndex) {
+  var theader = '';
+  performanceIndex.forEach(function (item) {
+    theader += '<th>' + item.title + '</td>';
   });
-  var part_2 = '\n      <th scope="col">\u8017\u65F6</th>\n\t    <th scope="col">\u6570\u91CF</th>\n      ';
-  var theader = '\n    <tr>\n\t    <th scope="col" rowspan="2">\u670D\u52A1\u540D</th>\n\t    <th scope="col" rowspan="2">\u65B9\u6CD5</th>\n\t    ' + part_1 + '\n\t  </tr>\n\t  <tr>\n\t    ' + part_2.repeat(times.length) + '\n\t  </tr>\n  ';
   return theader;
 }
 document.querySelector('#checkbox').onclick = function () {
@@ -243,5 +225,5 @@ interval = setInterval(function () {
   drawLineChart('chart', data);
 }, 1000);
 // createServiceDetailTable 详情table
-createServiceDetailTable('serviceDetail', times, serviceDetails);
-createServiceDetailTable('serviceDetail1', times, serviceDetails);
+createServiceDetailTable('serviceDetail', performanceIndex, serviceDetails);
+createServiceDetailTable('serviceDetail1', performanceIndex, serviceDetails);
